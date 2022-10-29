@@ -1,0 +1,34 @@
+{%extends "base.html"%}
+{%load plotly_dash%}
+
+{%block title%}Demo Eleven - Flexible Callbacks{%endblock%}
+
+{%block content%}
+<h1>Flexible Callbacks</h1>
+<p>
+  This example instantiates
+  two example applications that use flexible callbacks.
+</p>
+</p>
+<div class="card bg-light border-dark">
+  <div class="card-body">
+    <p><span>{</span>% load plotly_dash %}</p>
+    <p><span>{</span>% plotly_app name="FlexibleCallbackExample" ratio=0.2 %}</p>
+    <p><span>{</span>% plotly_app name="FlexibleCallbackExampleExpanded" ratio=0.2 %}</p>
+  </div>
+</div>
+<p>
+</p>
+<div class="card border-dark">
+  <div class="card-body">
+    {%plotly_app name="FlexibleCallbackExample" ratio=0.2 %}
+  </div>
+</div>
+<p></p>
+<div class="card border-dark">
+  <div class="card-body">
+    {%plotly_app name="FlexibleCallbackExampleExpanded" ratio=0.2 %}
+  </div>
+</div>
+<p></p>
+{%endblock%}

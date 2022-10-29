@@ -327,14 +327,31 @@ class DjangoDash:
 
         '''
 
-        output, inputs, state, prevent_initial_call = dependencies.handle_callback_args(
-            _args, _kwargs
-        )
+        have_flexi_callbacks = False
+        if 'inputs' in _kwargs:
+            have_flexi_callbacks = True
+        if 'outputs' in _kwargs:
+            have_flexi_callbacks = True
 
-        callback_set = {'output': output,
-                        'inputs': inputs,
-                        'state': state,
-                        'prevent_initial_call': prevent_initial_call}
+        if have_flexi_callbacks:
+            output, flat_inputs, flat_state, inputs_state_indices, prevent_initial_call = dependencies.handle_grouped_callback_args(_args,
+                                                                                                                                    _kwargs)
+
+            callback_set = {'output': output,
+                            'flat_inputs': flat_inputs,
+                            'flat_state': flat_state,
+                            'inputs_state_indices': inputs_state_indices,
+                            'prevent_initial_call': prevent_initial_call}
+
+        else:
+            output, inputs, state, prevent_initial_call = dependencies.handle_callback_args(
+                _args, _kwargs
+            )
+
+            callback_set = {'output': output,
+                            'inputs': inputs,
+                            'state': state,
+                            'prevent_initial_call': prevent_initial_call}
 
         def wrap_func(func):
             self._callback_sets.append((callback_set, func))
@@ -342,7 +359,11 @@ class DjangoDash:
             # to inject properly only the expanded arguments the function can accept
             # if .expanded is None => inject all
             # if .expanded is a list => inject only
-            func.expanded = DjangoDash.get_expanded_arguments(func, inputs, state)
+
+            if have_flexi_callbacks:
+                func.expanded = DjangoDash.get_expanded_arguments(func, flat_inputs, flat_state)
+            else:
+                func.expanded = DjangoDash.get_expanded_arguments(func, inputs, state)
             return func
         return wrap_func
 
@@ -372,6 +393,7 @@ class DjangoDash:
         return "assets/" + str(asset_name)
 
         #return self.as_dash_instance().get_asset_url(asset_name)
+
 
 class PseudoFlask(Flask):
     'Dummy implementation of a Flask instance, providing stub functionality'
@@ -594,7 +616,30 @@ class WrappedDash(Dash):
         item.component_id = self._fix_id(item.component_id)
         return item
 
-    def callback(self, output, inputs, state, prevent_initial_call):
+    def callback(self, **kwargs):
+        if 'flat_inputs' in kwargs:
+            return self.flexi_callback(**kwargs)
+        else:
+            return self.fixed_callback(**kwargs)
+
+    def flexi_callback(self, output, flat_inputs, flat_state, inputs_state_indices, prevent_initial_call):
+        print(output)
+        print(flat_inputs)
+        print(flat_state)
+        print(inputs_state_indices)
+
+        if isinstance(output, (list, tuple)):
+            fixed_outputs = [self._fix_callback_item(x) for x in output]
+        else:
+            fixed_outputs = self._fix_callback_item(output)
+
+
+        return super().callback(fixed_outputs,
+                                [self._fix_callback_item(x) for x in flat_inputs],
+                                [self._fix_callback_item(x) for x in flat_state],
+                                prevent_initial_call=prevent_initial_call)
+
+    def fixed_callback(self, output, inputs, state, prevent_initial_call):
         'Invoke callback, adjusting variable names as needed'
 
         if isinstance(output, (list, tuple)):
