@@ -1,4 +1,5 @@
 alabaster==0.7.13
+ansi2html==1.9.2
 anyio==4.2.0
 asgiref==3.6.0
 astroid==2.15.4
@@ -32,15 +33,15 @@ dill==0.3.6
 distlib==0.3.8
 Django==4.2
 django-bootstrap4==23.1
--e git+ssh://git@github.com/delsim/django-plotly-dash.git@be3b75eb9ef7bdf1f48fd7c44251b0f32967ae79#egg=django_plotly_dash
+-e git+ssh://git@github.com/delsim/django-plotly-dash.git@b61a192c09b19e36031430aa205c815b33c5458e#egg=django_plotly_dash
 django-redis==5.2.0
 docopt==0.6.2
 docutils==0.18.1
-dpd-components==0.1.0
 dpd-static-support==0.0.5
+-e git+ssh://git@gitlab.com/Delsim/dpd-react-components.git@82e908e83515e0a7783d1ba0ae30f299e0891b86#egg=dpd_components&subdirectory=component
 exceptiongroup==1.1.1
 filelock==3.13.1
-Flask==2.3.2
+Flask==2.2.5
 grip==4.6.1
 gunicorn==21.2.0
 h11==0.14.0
@@ -74,7 +75,7 @@ path-and-address==2.0.1
 pbr==6.0.0
 pkginfo==1.9.6
 platformdirs==4.2.0
-plotly==5.14.1
+plotly==5.24.1
 pluggy==1.0.0
 pyasn1==0.5.0
 pyasn1-modules==0.3.0
@@ -133,7 +134,7 @@ virtualenvwrapper==6.1.0
 watchfiles==0.21.0
 webencodings==0.5.1
 websockets==12.0
-Werkzeug==2.3.3
+Werkzeug==2.2.3
 wrapt==1.15.0
 zipp==3.15.0
 zope.interface==6.0
