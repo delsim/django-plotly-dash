@@ -1,0 +1,28 @@
+{%extends "base.html"%}
+{%load plotly_dash%}
+
+{%block title%}Demo Twelve - Caching{%endblock%}
+
+{%block content%}
+<h1>Value caching</h1>
+<p>
+  This is a demonstration of caching within the django-plotly-dash framework.
+</p>
+<div class="card bg-light border-dark">
+  <div class="card-body">
+    <p><span>{</span>% load plotly_dash %}</p>
+    <p>&lt;div class="<span>{</span>% plotly_class name="CacheExample"%}">
+    <p class="ml-3"><span>{</span>% plotly_app name="CacheExample" ratio=0.4 %}</p>
+    <p>&lt;\div>
+  </div>
+</div>
+<p></p>
+<div class="card border-dark">
+  <div class="card-body">
+    <div class="{%plotly_class name="CacheExample"%}">
+      {%plotly_app name="CacheExample" ratio=0.4 %}
+    </div>
+  </div>
+</div>
+<p></p>
+{%endblock%}

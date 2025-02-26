@@ -49,6 +49,7 @@ urlpatterns = [
     path('demo-nine', TemplateView.as_view(template_name='demo_nine.html'), name="demo-nine"),
     path('demo-ten', TemplateView.as_view(template_name='demo_ten.html'), name="demo-ten"),
     path('demo-eleven', TemplateView.as_view(template_name='demo_eleven.html'), name="demo-eleven"),
+    path('demo-twelve', TemplateView.as_view(template_name='demo_twelve.html'), name="demo-twelve"),
     path('admin/', admin.site.urls),
     path('django_plotly_dash/', include('django_plotly_dash.urls')),
 

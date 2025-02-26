@@ -314,14 +314,18 @@ def callback_show_timeseries(internal_state_string, state_uid, **kwargs):
             #'layout': go.Layout
            }
 
+
 localState = DjangoDash("LocalState",
                         serve_locally=True)
+
 
 localState.layout = html.Div([html.Img(src=localState.get_asset_url('image_one.png')),
                               html.Img(src='assets/image_two.png'),
                               ])
 
+
 multiple_callbacks = DjangoDash("MultipleCallbackValues")
+
 
 multiple_callbacks.layout = html.Div([
     html.Button("Press Me",
@@ -334,6 +338,7 @@ multiple_callbacks.layout = html.Div([
     html.Div(id="output-two"),
     html.Div(id="output-three")
     ])
+
 
 @multiple_callbacks.callback(
     [dash.dependencies.Output('output-one', 'children'),
@@ -352,6 +357,7 @@ def multiple_callbacks_one(button_clicks, color_choice):
 
 multiple_callbacks = DjangoDash("MultipleCallbackValuesExpanded")
 
+
 multiple_callbacks.layout = html.Div([
     html.Button("Press Me",
                 id="button"),
@@ -363,6 +369,7 @@ multiple_callbacks.layout = html.Div([
     html.Div(id="output-two"),
     html.Div(id="output-three")
     ])
+
 
 @multiple_callbacks.expanded_callback(
     [dash.dependencies.Output('output-one', 'children'),
@@ -379,7 +386,6 @@ def multiple_callbacks_two(button_clicks, color_choice, **kwargs):
             "Output 2: %s %s %s" % (button_clicks, color_choice, kwargs['callback_context'].triggered),
             "Output 3: %s %s [%s]" % (button_clicks, color_choice, kwargs)
             ]
-
 
 
 external_scripts = [
@@ -400,25 +406,26 @@ external_stylesheets = [
         'crossorigin': 'anonymous'
     }
 ]
+
+
 external_scripts_stylesheets = DjangoDash("ExternalScriptStylesheets",
                                           external_stylesheets=external_stylesheets,
                                           external_scripts=external_scripts)
 
 external_scripts_stylesheets.layout = html.Div()
 
+
 flexible_expanded_callbacks = DjangoDash("FlexibleExpandedCallbacks")
+
 
 flexible_expanded_callbacks.layout = html.Div([
     html.Button("Press Me",
                 id="button"),
-    dcc.RadioItems(id='dropdown-color',
-                   options=[{'label': c, 'value': c.lower()} for c in ['Red', 'Green', 'Blue']],
-                   value='red'
-                   ),
     html.Div(id="output-one"),
     html.Div(id="output-two"),
     html.Div(id="output-three")
     ])
+
 
 @flexible_expanded_callbacks.expanded_callback(
     dash.dependencies.Output('output-one', 'children'),
@@ -433,6 +440,7 @@ def exp_callback_kwargs(button_clicks, **kwargs):
 def exp_callback_standard(button_clicks):
     return "ok"
 
+
 @flexible_expanded_callbacks.expanded_callback(
     dash.dependencies.Output('output-three', 'children'),
     [dash.dependencies.Input('button', 'n_clicks')])
@@ -441,6 +449,7 @@ def exp_callback_dash_app_id(button_clicks, dash_app_id):
 
 
 pattern_state_callbacks = DjangoDash("PatternStateCallbacks")
+
 
 pattern_state_callbacks.layout = html.Div([
     html.Div(id={"_id": "output-one", "_type": "divo"}),
@@ -463,3 +472,7 @@ def pattern_all(values):
     return str(values)
 
 
+cache_app = DjangoDash("CacheExample")
+
+
+cache_app.layout = html.Div([])
